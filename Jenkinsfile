@@ -1,4 +1,4 @@
-@Library('sharedlib') _
+@Library('sharedlib@dev-CO-177') _
 import src.dataxu.docker.general.*
 
 def gemname = 'vast'
@@ -71,13 +71,10 @@ pipeline {
                 }       
             }
         }
-        stage('Build & Push Gem') {
-            when {
-                expression { env.BRANCH_NAME == 'master' }
-            }
+        stage('Build Gem') {
             steps {
                 sh """
-                   docker run ${dockerImg} /bin/bash -c "gem build ${gemspec}; ./push.sh"
+                   docker run ${dockerImg} /bin/bash -c "gem build ${gemspec}"
                    """
             }
             post {
